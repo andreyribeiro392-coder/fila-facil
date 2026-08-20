@@ -9,6 +9,7 @@ import "./enhancements.css";
 import "./security.css";
 import "./privacy-fixes.css";
 import "./release-02.css";
+import "./planos.css";
 
 export const metadata: Metadata = {
   title: "Fila Fácil 0.2",

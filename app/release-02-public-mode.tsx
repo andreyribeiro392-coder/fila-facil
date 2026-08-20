@@ -61,6 +61,7 @@ function addHelpfulLinks() {
   box.className = "ff02-public-actions";
   box.setAttribute("aria-label", "Links úteis do Fila Fácil");
   box.innerHTML = `
+    <a href="/planos">Planos</a>
     <a href="/como-funciona">Como funciona</a>
     <a href="/suporte">Suporte</a>
     <a href="/privacidade">Privacidade</a>

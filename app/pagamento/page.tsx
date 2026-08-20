@@ -21,9 +21,14 @@ const plans = {
   },
 };
 
+type RequestResponse = { ok?: boolean; error?: string; request?: { status?: string; id?: string } };
+
 export default function PagamentoPage() {
   const [type, setType] = useState<"cliente" | "barbearia">("barbearia");
+  const [payerName, setPayerName] = useState("");
   const [copied, setCopied] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const param = new URLSearchParams(window.location.search).get("tipo");
@@ -37,6 +42,25 @@ export default function PagamentoPage() {
     await navigator.clipboard.writeText(value);
     setCopied(label);
     window.setTimeout(() => setCopied(""), 2500);
+  }
+
+  async function sendPaymentNotice() {
+    setLoading(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/payments/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planType: type, payerName }),
+      });
+      const data = (await response.json()) as RequestResponse;
+      if (!response.ok || !data.ok) throw new Error(data.error || "Não foi possível enviar o pedido.");
+      setMessage("Pedido enviado. Agora ele aparecerá no painel de liberação como pendente.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Erro ao enviar o pedido.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -65,15 +89,28 @@ export default function PagamentoPage() {
         <div className="pixButtons">
           <button className="primary" onClick={() => copy(plan.pixCopy, "Pix copia e cola copiado")}>Copiar Pix copia e cola</button>
           <button className="secondary" onClick={() => copy(PIX_KEY, "Chave Pix copiada")}>Copiar chave Pix</button>
-          <a className="secondary" href="/suporte" style={{ textDecoration: "none" }}>Enviar comprovante</a>
         </div>
         {copied && <div className="pixCopied">{copied}</div>}
+      </section>
+
+      <section className="pixCard">
+        <span className="eyebrow">Depois de pagar</span>
+        <strong>Avise o pagamento</strong>
+        <p>Digite o nome que aparece no seu banco/comprovante para eu conferir no painel de liberação.</p>
+        <label className="payLabel">
+          Nome de quem pagou
+          <input value={payerName} onChange={(event) => setPayerName(event.target.value)} placeholder="Ex: João Silva" maxLength={80} />
+        </label>
+        <button className="primary full" disabled={loading || payerName.trim().length < 3} onClick={sendPaymentNotice}>
+          {loading ? "Enviando…" : "Já paguei, enviar para liberação"}
+        </button>
+        {message && <div className="pixCopied">{message}</div>}
       </section>
 
       <section className="shopCardV6 planNotice">
         <strong>Importante</strong>
         <p>No app do banco pode aparecer o nome cadastrado da conta Pix por segurança do próprio banco. No Fila Fácil, fica visível apenas a Chave Aleatória.</p>
-        <p>Depois do pagamento, envie o comprovante pelo suporte para ativação/liberação manual enquanto a cobrança automática ainda não está integrada.</p>
+        <p>O acesso é liberado depois que o pagamento for conferido no painel administrativo.</p>
       </section>
     </main>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CanonicalLinkPatch from "./canonical-link-patch";
 import Release02PublicMode from "./release-02-public-mode";
+import AppNotifications from "./app-notifications";
 import "./globals.css";
 import "./admin.css";
 import "./directory.css";
@@ -10,6 +11,7 @@ import "./security.css";
 import "./privacy-fixes.css";
 import "./release-02.css";
 import "./planos.css";
+import "./barber-premium-ui.css";
 
 export const metadata: Metadata = {
   title: "Fila Fácil 0.2",
@@ -35,12 +37,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
-        <meta name="theme-color" content="#153b2a"/>
+        <meta name="theme-color" content="#171513"/>
         <meta name="mobile-web-app-capable" content="yes"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
       </head>
       <body className="antialiased">
         <CanonicalLinkPatch />
         <Release02PublicMode />
+        <AppNotifications />
         {children}
       </body>
     </html>

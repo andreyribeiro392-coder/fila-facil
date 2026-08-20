@@ -24,8 +24,8 @@ export default function PlanosPage() {
         <h1>Fila Fácil com preço de começo</h1>
         <p>Valores promocionais para colocar barbearias e clientes usando o sistema desde a versão pública 0.2.</p>
         <div className="heroActions">
-          <a className="primary" href="/" style={{ textDecoration: "none" }}>Abrir app</a>
-          <a className="secondary" href="/suporte" style={{ textDecoration: "none" }}>Falar com suporte</a>
+          <a className="primary" href="/pagamento?tipo=barbearia" style={{ textDecoration: "none" }}>Pagar barbearia</a>
+          <a className="secondary" href="/pagamento?tipo=cliente" style={{ textDecoration: "none" }}>Pagar cliente</a>
         </div>
       </section>
 
@@ -39,7 +39,7 @@ export default function PlanosPage() {
           <ul>
             {barberFeatures.map((feature) => <li key={feature}>✓ {feature}</li>)}
           </ul>
-          <a href="/" className="primary full" style={{ textDecoration: "none" }}>Cadastrar barbearia</a>
+          <a href="/pagamento?tipo=barbearia" className="primary full" style={{ textDecoration: "none" }}>Pagar e ativar barbearia</a>
         </article>
 
         <article className="planCard">
@@ -51,13 +51,13 @@ export default function PlanosPage() {
           <ul>
             {clientFeatures.map((feature) => <li key={feature}>✓ {feature}</li>)}
           </ul>
-          <a href="/" className="secondary full" style={{ textDecoration: "none" }}>Entrar como cliente</a>
+          <a href="/pagamento?tipo=cliente" className="secondary full" style={{ textDecoration: "none" }}>Pagar acesso cliente</a>
         </article>
       </section>
 
       <section className="shopCardV6 planNotice">
         <strong>Pagamento inicial</strong>
-        <p>Por enquanto, o pagamento pode ser combinado pelo suporte/Pix manual. A liberação automática por cartão, Pix ou assinatura entra em uma integração futura.</p>
+        <p>Por enquanto, o pagamento é por Pix manual. Após pagar, o cliente ou a barbearia envia o comprovante pelo suporte para ativação.</p>
         <p>Barbearias que não mantiverem o plano ativo podem ser pausadas ou removidas do diretório público.</p>
       </section>
     </main>

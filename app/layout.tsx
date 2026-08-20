@@ -4,10 +4,17 @@ import "./admin.css";
 import "./directory.css";
 import "./client-simple.css";
 import "./enhancements.css";
+import "./security.css";
 
 export const metadata: Metadata = {
   title: "Fila Fácil",
-  description: "Acompanhe a fila da sua barbearia ao vivo e entre sem complicação.",
+  description: "Filas seguras para barbearias verificadas.",
+  applicationName: "Fila Fácil",
+  appleWebApp: {
+    capable: true,
+    title: "Fila Fácil",
+    statusBarStyle: "black-translucent",
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -21,6 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <meta name="theme-color" content="#153b2a"/>
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );

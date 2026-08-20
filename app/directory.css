@@ -1,1 +1,174 @@
-.roleCard{place-self:center}.roleGrid{display:grid;gap:12px}.roleGrid button{padding:17px;text-align:left;display:grid;gap:5px;background:#fff;color:var(--ink)}.roleGrid button:last-child{background:var(--gold)}.roleGrid b{font-size:17px}.roleGrid span{font-size:12px;font-weight:600;color:#5e6a62}.directory{min-height:100svh;background:#f5f0e7;padding-bottom:45px}.directoryHero{position:relative;padding:78px 22px 28px;color:white;background:linear-gradient(145deg,#081510,#1c5038)}.directoryHero h1{font:700 38px/1.05 Georgia,serif;margin:8px 0}.directoryHero p{max-width:520px;color:#c5d2ca;margin:0}.directoryTools{display:grid;grid-template-columns:1fr auto;gap:10px;padding:17px;max-width:850px;margin:auto}.directoryTools button{padding:0 18px}.directoryTools small{grid-column:1/-1;margin:0;text-align:left;color:#52705e}.shopList{padding:5px 17px;max-width:850px;margin:auto}.directoryTitle{display:flex;justify-content:space-between;align-items:center;margin:14px 2px}.directoryTitle span{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#a17b31}.directoryTitle h2{font:700 30px Georgia,serif;margin:3px 0}.directoryTitle>b{width:40px;height:40px;display:grid;place-items:center;background:#173f2c;color:#fff;border-radius:13px}.shopCard{width:100%;min-height:94px;margin-bottom:11px;padding:14px;display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:13px;text-align:left;background:#fff;border:1px solid #e6ded2;box-shadow:0 8px 25px #173f2c0d}.shopAvatar{width:52px;height:52px;border-radius:16px;background:#173f2c;color:#d6aa50;display:grid;place-items:center;font-size:22px}.shopCard>div:nth-child(2){display:grid;gap:3px}.shopCard strong{font-size:17px}.shopCard span{font-size:12px;color:#718077}.shopCard em{font-size:11px;color:#2d704a;font-style:normal;font-weight:800}.shopCard i{padding:7px 9px;border-radius:99px;font-size:10px;font-style:normal}.shopCard i.open{background:#dff3e7;color:#20633c}.shopCard i.closed{background:#f3dfdd;color:#7a3530}@media(max-width:560px){.directoryTools{grid-template-columns:1fr}.directoryTools small{grid-column:auto}.shopCard{grid-template-columns:48px 1fr}.shopCard>i{grid-column:2;justify-self:start}.roleCard{margin:auto}.entryCard h1{font-size:44px}}
+.roleCard {
+  place-self: center;
+}
+.roleGrid {
+  display: grid;
+  gap: 12px;
+}
+.roleGrid button {
+  padding: 17px;
+  text-align: left;
+  display: grid;
+  gap: 5px;
+  background: #fff;
+  color: var(--ink);
+}
+.roleGrid button:last-child {
+  background: var(--gold);
+}
+.roleGrid b {
+  font-size: 17px;
+}
+.roleGrid span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5e6a62;
+}
+.directory {
+  min-height: 100svh;
+  background: #f5f0e7;
+  padding-bottom: 45px;
+}
+.directoryHero {
+  position: relative;
+  padding: 78px 22px 28px;
+  color: white;
+  background: linear-gradient(145deg, #081510, #1c5038);
+}
+.directoryHero h1 {
+  font:
+    700 38px/1.05 Georgia,
+    serif;
+  margin: 8px 0;
+}
+.directoryHero p {
+  max-width: 520px;
+  color: #c5d2ca;
+  margin: 0;
+}
+.directoryTools {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 17px;
+  max-width: 850px;
+  margin: auto;
+}
+.directoryTools button {
+  padding: 0 18px;
+}
+.directoryTools small {
+  grid-column: 1/-1;
+  margin: 0;
+  text-align: left;
+  color: #52705e;
+}
+.shopList {
+  padding: 5px 17px;
+  max-width: 850px;
+  margin: auto;
+}
+.directoryTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 14px 2px;
+}
+.directoryTitle span {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a17b31;
+}
+.directoryTitle h2 {
+  font:
+    700 30px Georgia,
+    serif;
+  margin: 3px 0;
+}
+.directoryTitle > b {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: #173f2c;
+  color: #fff;
+  border-radius: 13px;
+}
+.shopCard {
+  width: 100%;
+  min-height: 94px;
+  margin-bottom: 11px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 54px 1fr auto;
+  align-items: center;
+  gap: 13px;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #e6ded2;
+  box-shadow: 0 8px 25px #173f2c0d;
+}
+.shopAvatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: #173f2c;
+  color: #d6aa50;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+}
+.shopCard > div:nth-child(2) {
+  display: grid;
+  gap: 3px;
+}
+.shopCard strong {
+  font-size: 17px;
+}
+.shopCard span {
+  font-size: 12px;
+  color: #718077;
+}
+.shopCard em {
+  font-size: 11px;
+  color: #2d704a;
+  font-style: normal;
+  font-weight: 800;
+}
+.shopCard i {
+  padding: 7px 9px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-style: normal;
+}
+.shopCard i.open {
+  background: #dff3e7;
+  color: #20633c;
+}
+.shopCard i.closed {
+  background: #f3dfdd;
+  color: #7a3530;
+}
+@media (max-width: 560px) {
+  .directoryTools {
+    grid-template-columns: 1fr;
+  }
+  .directoryTools small {
+    grid-column: auto;
+  }
+  .shopCard {
+    grid-template-columns: 48px 1fr;
+  }
+  .shopCard > i {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .roleCard {
+    margin: auto;
+  }
+  .entryCard h1 {
+    font-size: 44px;
+  }
+}

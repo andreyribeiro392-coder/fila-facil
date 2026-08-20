@@ -1,0 +1,223 @@
+.securitySeal {
+  padding: 12px 14px;
+  border: 1px solid #d6aa5045;
+  border-radius: 13px;
+  background: #d6aa5014;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.logoutPill {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid #ffffff25;
+  background: #ffffff16;
+  color: #fff;
+}
+
+.verifiedMark {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: #247a4a;
+  color: #fff !important;
+  font-size: 11px !important;
+}
+
+.authBack {
+  justify-self: start;
+  min-height: 36px;
+  padding: 0;
+  background: transparent;
+  color: var(--forest);
+}
+
+.authTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding: 5px;
+  border-radius: 15px;
+  background: #f1ede6;
+}
+
+.authTabs button {
+  min-height: 41px;
+  background: transparent;
+  color: #5e6a62;
+}
+
+.authTabs button.active {
+  background: #fff;
+  color: var(--forest);
+  box-shadow: 0 5px 16px #173f2c14;
+}
+
+.passwordRules {
+  margin-top: -6px;
+  color: #647168;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.adminNotice {
+  width: min(90%, 990px);
+  margin: 0 auto 16px;
+}
+
+.verificationPage {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background:
+    radial-gradient(circle at 20% 0%, #387156 0, transparent 32%),
+    linear-gradient(145deg, #081510, #173f2c 70%, #d6aa50);
+}
+
+.verificationCard,
+.reviewCard {
+  width: min(100%, 620px);
+  display: grid;
+  gap: 15px;
+  padding: clamp(22px, 5vw, 38px);
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 24px 80px #0007;
+}
+
+.verificationCard h1,
+.reviewCard h1 {
+  margin: 4px 0;
+  font:
+    700 clamp(32px, 7vw, 44px)/1.05 Georgia,
+    serif;
+}
+
+.verificationCard > p,
+.reviewCard > p {
+  margin: 0 0 4px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.verificationTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.verificationSteps {
+  display: grid;
+  grid-template-columns: 30px 1fr 30px 1fr 30px 1fr;
+  align-items: center;
+  gap: 7px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #f7f3ec;
+  color: #59675e;
+  font-size: 11px;
+}
+
+.verificationSteps b {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--forest);
+  color: var(--gold);
+}
+
+.locationButton {
+  background: #e8eee9;
+  color: var(--forest);
+}
+
+.locationButton.confirmed {
+  background: #dff3e7;
+  color: #1f6540;
+}
+
+.ownershipCheck {
+  grid-template-columns: 24px 1fr;
+  align-items: start;
+  padding: 13px;
+  border: 1px solid #e3ddd3;
+  border-radius: 13px;
+  background: #faf8f4;
+  line-height: 1.45;
+}
+
+.ownershipCheck input {
+  width: 20px;
+  min-height: 20px;
+  accent-color: var(--forest);
+}
+
+.reviewCard {
+  justify-items: center;
+  text-align: center;
+}
+
+.reviewIcon {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f7e8bd;
+  color: #8c6725;
+  font-size: 30px;
+}
+
+.reviewIcon.rejected {
+  background: #f7e1df;
+  color: #7b312d;
+}
+
+.reviewInfo {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 15px;
+  background: #f5f1ea;
+}
+
+.reviewInfo span {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.reviewCard > button {
+  width: 100%;
+}
+
+@media (max-width: 540px) {
+  .authCard {
+    padding: 24px 20px;
+  }
+
+  .authCard h1 {
+    font-size: 36px;
+  }
+
+  .verificationSteps {
+    grid-template-columns: 27px 1fr;
+  }
+
+  .verificationTop {
+    display: grid;
+  }
+}

@@ -21,8 +21,31 @@
   margin-top: 4px;
 }
 
+.filePicker {
+  min-height: 54px;
+  display: grid;
+  place-items: center;
+  padding: 0 16px;
+  border: 1px dashed #b9954e;
+  border-radius: 14px;
+  background: #fbf5e8;
+  color: var(--forest);
+  cursor: pointer;
+}
+
+.filePicker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .landing {
-  background: radial-gradient(circle at 20% 15%, #3b7154 0, transparent 35%), linear-gradient(145deg, #081510, #173f2c 65%, #d6aa50);
+  background:
+    radial-gradient(circle at 20% 15%, #3b7154 0, transparent 35%),
+    linear-gradient(145deg, #081510, #173f2c 65%, #d6aa50);
 }
 
 .authPage,

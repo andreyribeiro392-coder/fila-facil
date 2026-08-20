@@ -5,6 +5,7 @@ import "./directory.css";
 import "./client-simple.css";
 import "./enhancements.css";
 import "./security.css";
+import "./privacy-fixes.css";
 
 export const metadata: Metadata = {
   title: "Fila Fácil",

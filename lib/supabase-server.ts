@@ -1,5 +1,7 @@
 const SUPABASE_URL = "https://wvmsylpqvaiqtvtkrxil.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_IVZ-ENHIfzPfuo-EDoRfuA_80t98jJ5";
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const ADMIN_PIN = process.env.FILA_FACIL_ADMIN_PIN || "";
 
 type RpcResult = Record<string, unknown> & { ok?: boolean; error?: string };
 
@@ -41,6 +43,36 @@ export async function callRpc<T extends RpcResult>(
     const message = "message" in data && typeof data.message === "string"
       ? data.message
       : "O servidor recusou a operação.";
+    throw new Error(message);
+  }
+  return data as T;
+}
+
+export function hasAdminPaymentConfig() {
+  return Boolean(SUPABASE_SERVICE_ROLE_KEY && ADMIN_PIN && ADMIN_PIN.length >= 6);
+}
+
+export function isValidAdminPin(pin: string | null | undefined) {
+  return Boolean(ADMIN_PIN && pin && pin === ADMIN_PIN);
+}
+
+export async function serviceRequest<T>(path: string, options?: RequestInit) {
+  if (!SUPABASE_SERVICE_ROLE_KEY) throw new Error("SUPABASE_SERVICE_ROLE_KEY não configurada.");
+  const response = await fetch(`${SUPABASE_URL}${path}`, {
+    ...options,
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+      ...options?.headers,
+    },
+    cache: "no-store",
+  });
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : null;
+  if (!response.ok) {
+    const message = data?.message || data?.error || "Operação administrativa recusada.";
     throw new Error(message);
   }
   return data as T;

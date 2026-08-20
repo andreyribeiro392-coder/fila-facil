@@ -17,3 +17,5 @@ Aplicativo Android oficial do Fila Fácil.
 - Safe Browsing ativado, backup desativado e certificados limitados ao sistema.
 
 > Esta versão usa uma nova assinatura porque a chave privada da v4 não estava disponível no pacote enviado.
+
+Build disparado para gerar o APK v5.

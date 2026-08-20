@@ -1,0 +1,32 @@
+name: Build Android v5
+
+on:
+  push:
+    branches: [main, android-v5-build]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Build unsigned release APK
+        working-directory: android-v5
+        run: gradle :app:assembleRelease --no-daemon
+      - name: Upload unsigned APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fila-Facil-v5-unsigned
+          path: android-v5/app/build/outputs/apk/release/app-release-unsigned.apk

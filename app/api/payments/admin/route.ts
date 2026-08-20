@@ -32,19 +32,30 @@ function pinFrom(request: Request) {
 }
 
 export async function GET(request: Request) {
-  if (!hasAdminPaymentConfig()) return NextResponse.json({ ok: false, setup: true, error: "Configure SUPABASE_SERVICE_ROLE_KEY e FILA_FACIL_ADMIN_PIN na Vercel." }, { status: 503 });
+  if (!hasAdminPaymentConfig()) {
+    return NextResponse.json({ ok: false, setup: true, error: "Configure SUPABASE_SERVICE_ROLE_KEY e FILA_FACIL_ADMIN_PIN na Vercel." }, { status: 503 });
+  }
   if (!isValidAdminPin(pinFrom(request))) return adminError();
 
   try {
-    const payments = await serviceRequest<PaymentRow[]>("/rest/v1/payment_requests?select=*&order=created_at.desc&limit=100");
+    const payments = await serviceRequest<PaymentRow[]>("/rest/v1/payment_requests?select=id,account_id,payer_name,plan_type,amount,status,review_note,created_at,reviewed_at&order=created_at.desc&limit=100");
     const ids = [...new Set(payments.map((item) => item.account_id).filter(Boolean))];
     let accounts: AccountRow[] = [];
+    let warning = "";
+
     if (ids.length) {
-      accounts = await serviceRequest<AccountRow[]>(`/rest/v1/app_accounts?select=id,username,display_name,role,payment_status,lifetime_access,paid_until&id=in.(${ids.join(",")})`);
+      try {
+        accounts = await serviceRequest<AccountRow[]>(`/rest/v1/app_accounts?select=id,username,display_name,role,payment_status,lifetime_access,paid_until&id=in.(${ids.join(",")})`);
+      } catch (error) {
+        warning = error instanceof Error ? error.message : "Não foi possível carregar os dados das contas.";
+      }
     }
+
     const map = new Map(accounts.map((account) => [account.id, account]));
     return NextResponse.json({
       ok: true,
+      warning,
+      total: payments.length,
       payments: payments.map((payment) => ({ ...payment, account: map.get(payment.account_id) || null })),
     });
   } catch (error) {
@@ -62,7 +73,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const rows = await serviceRequest<PaymentRow[]>(`/rest/v1/payment_requests?select=*&id=eq.${body.requestId}&limit=1`);
+    const rows = await serviceRequest<PaymentRow[]>(`/rest/v1/payment_requests?select=id,account_id,payer_name,plan_type,amount,status,review_note,created_at,reviewed_at&id=eq.${body.requestId}&limit=1`);
     const payment = rows[0];
     if (!payment) return NextResponse.json({ ok: false, error: "Pedido não encontrado." }, { status: 404 });
 

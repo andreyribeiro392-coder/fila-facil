@@ -9,6 +9,10 @@ export async function POST(request: Request) {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token) return NextResponse.json({ ok: false, error: "Entre com sua conta de cliente." }, { status: 401 });
   const body = (await request.json()) as { slug?: string; rating?: number; comment?: string };
+  if (!body.slug) return NextResponse.json({ ok: false, error: "Barbearia inválida." }, { status: 400 });
+  if (!Number.isInteger(body.rating) || Number(body.rating) < 1 || Number(body.rating) > 5) {
+    return NextResponse.json({ ok: false, error: "Escolha uma nota de 1 a 5." }, { status: 400 });
+  }
   try {
     const result = await callRpc<ReviewResult>("ff_review_shop", {
       p_token: token,
@@ -18,6 +22,6 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(result, { status: result.ok ? 200 : 400 });
   } catch {
-    return NextResponse.json({ ok: false, error: "Não foi possível salvar sua avaliação." }, { status: 503 });
+    return NextResponse.json({ ok: false, error: "Avaliações serão ativadas após rodar o SQL v6 no Supabase." }, { status: 503 });
   }
 }

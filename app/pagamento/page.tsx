@@ -21,10 +21,14 @@ const plans = {
   },
 };
 
+type Account = { id: string; username: string; displayName: string; role: "client" | "owner" | "support" };
+type SessionResponse = { ok?: boolean; account?: Account };
 type RequestResponse = { ok?: boolean; error?: string; request?: { status?: string; id?: string } };
 
 export default function PagamentoPage() {
   const [type, setType] = useState<"cliente" | "barbearia">("barbearia");
+  const [account, setAccount] = useState<Account | null>(null);
+  const [checkingAccount, setCheckingAccount] = useState(true);
   const [payerName, setPayerName] = useState("");
   const [copied, setCopied] = useState("");
   const [message, setMessage] = useState("");
@@ -33,10 +37,23 @@ export default function PagamentoPage() {
   useEffect(() => {
     const param = new URLSearchParams(window.location.search).get("tipo");
     if (param === "cliente" || param === "barbearia") setType(param);
+
+    void fetch("/api/session", { cache: "no-store" })
+      .then(async (response) => response.ok ? (await response.json()) as SessionResponse : null)
+      .then((result) => {
+        if (result?.account) {
+          setAccount(result.account);
+          setPayerName(result.account.displayName || "");
+          setType(result.account.role === "owner" ? "barbearia" : "cliente");
+        }
+      })
+      .catch(() => undefined)
+      .finally(() => setCheckingAccount(false));
   }, []);
 
   const plan = plans[type];
   const qrUrl = useMemo(() => `https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=${encodeURIComponent(plan.pixCopy)}`, [plan.pixCopy]);
+  const roleMatchesPlan = account ? (type === "cliente" ? account.role === "client" : account.role === "owner") : false;
 
   async function copy(value: string, label: string) {
     await navigator.clipboard.writeText(value);
@@ -45,6 +62,14 @@ export default function PagamentoPage() {
   }
 
   async function sendPaymentNotice() {
+    if (!account) {
+      setMessage("Entre na sua conta do Fila Fácil antes de avisar o pagamento. É essa conta que será liberada.");
+      return;
+    }
+    if (!roleMatchesPlan) {
+      setMessage("O plano não combina com sua conta. Conta de cliente libera cliente; conta de proprietário libera barbearia.");
+      return;
+    }
     setLoading(true);
     setMessage("");
     try {
@@ -70,9 +95,27 @@ export default function PagamentoPage() {
         <h1>{plan.title}</h1>
         <p>{plan.subtitle}</p>
         <div className="heroActions">
-          <button className={type === "cliente" ? "primary" : "secondary"} onClick={() => setType("cliente")}>Cliente R$ 1,00</button>
-          <button className={type === "barbearia" ? "primary" : "secondary"} onClick={() => setType("barbearia")}>Barbearia R$ 6,99</button>
+          <button className={type === "cliente" ? "primary" : "secondary"} disabled={account?.role === "owner"} onClick={() => setType("cliente")}>Cliente R$ 1,00</button>
+          <button className={type === "barbearia" ? "primary" : "secondary"} disabled={account?.role === "client"} onClick={() => setType("barbearia")}>Barbearia R$ 6,99</button>
         </div>
+      </section>
+
+      <section className="pixCard accountLinkCard">
+        <span className="eyebrow">Conta que será liberada</span>
+        {checkingAccount && <p>Verificando login…</p>}
+        {!checkingAccount && !account && (
+          <>
+            <strong>Você ainda não entrou na conta</strong>
+            <p>Entre ou crie sua conta primeiro. Depois volte nesta tela e clique em “Já paguei”. Sem login, o painel não sabe qual conta liberar.</p>
+            <a className="primary full" href="/" style={{ textDecoration: "none" }}>Entrar no Fila Fácil</a>
+          </>
+        )}
+        {account && (
+          <>
+            <strong>{account.displayName}</strong>
+            <p>@{account.username} • {account.role === "owner" ? "proprietário/barbearia" : "cliente"}</p>
+          </>
+        )}
       </section>
 
       <section className="pixCard">
@@ -96,12 +139,12 @@ export default function PagamentoPage() {
       <section className="pixCard">
         <span className="eyebrow">Depois de pagar</span>
         <strong>Avise o pagamento</strong>
-        <p>Digite o nome que aparece no seu banco/comprovante para eu conferir no painel de liberação.</p>
+        <p>Digite o nome que aparece no banco/comprovante. O pedido vai cair no painel de liberação.</p>
         <label className="payLabel">
           Nome de quem pagou
           <input value={payerName} onChange={(event) => setPayerName(event.target.value)} placeholder="Ex: João Silva" maxLength={80} />
         </label>
-        <button className="primary full" disabled={loading || payerName.trim().length < 3} onClick={sendPaymentNotice}>
+        <button className="primary full" disabled={loading || checkingAccount || !account || !roleMatchesPlan || payerName.trim().length < 3} onClick={sendPaymentNotice}>
           {loading ? "Enviando…" : "Já paguei, enviar para liberação"}
         </button>
         {message && <div className="pixCopied">{message}</div>}

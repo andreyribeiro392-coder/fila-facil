@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CanonicalLinkPatch from "./canonical-link-patch";
 import "./globals.css";
 import "./admin.css";
 import "./directory.css";
@@ -32,7 +33,10 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#153b2a"/>
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <CanonicalLinkPatch />
+        {children}
+      </body>
     </html>
   );
 }
